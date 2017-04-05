@@ -1,11 +1,18 @@
 package org.thappo.domain.feature.user.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.thappo.commons.enumeration.Profile;
 import org.thappo.commons.enumeration.UserState;
 import org.thappo.domain.feature.commons.model.AbstractDomain;
+import org.thappo.domain.feature.contact.model.Contact;
+import org.thappo.domain.feature.contact.model.ContactDomain;
 
 public class UserDomain
     extends AbstractDomain {
@@ -18,36 +25,43 @@ public class UserDomain
     public interface UpdateValidations {
     }
 
-    private String id;
+    private Integer userId;
 
     @NotNull(groups = {AddValidations.class}, message = "Name must not be null")
-    @Size(min = 2, max = 20, groups = {AddValidations.class, UpdateValidations.class}, message = "Name must be between {min} and {max} chars")
+    @Size(min = 2, max = 20, groups = {AddValidations.class, UpdateValidations.class}, message = "First name must be between {min} and {max} chars")
     private String firstName;
 
     @NotNull(groups = {AddValidations.class}, message = "Name must not be null")
-    @Size(min = 2, max = 20, groups = {AddValidations.class, UpdateValidations.class}, message = "Name must be between {min} and {max} chars")
+    @Size(min = 2, max = 20, groups = {AddValidations.class, UpdateValidations.class}, message = "Last name must be between {min} and {max} chars")
 	private String lastName;
 	
     @NotNull(groups = {AddValidations.class}, message = "Name must not be null")
-    @Size(min = 5, max = 50, groups = {AddValidations.class, UpdateValidations.class}, message = "Name must be between {min} and {max} chars")
-	private String email;
+    @Size(min = 5, max = 50, groups = {AddValidations.class, UpdateValidations.class}, message = "Email must be between {min} and {max} chars")
+    @Pattern(regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", groups = {AddValidations.class, UpdateValidations.class}, message = "Email must conform to top level domain standards")
+    private String email;
 	
     @NotNull(groups = {AddValidations.class}, message = "Name must not be null")
-    @Size(min = 6, max = 40, groups = {AddValidations.class, UpdateValidations.class}, message = "Name must be between {min} and {max} chars")
-	private String password;
+    @Size(min = 6, max = 40, groups = {AddValidations.class, UpdateValidations.class}, message = "Password must be between {min} and {max} chars")
+    private String password;
     
-    @NotNull(groups = {AddValidations.class}, message = "Gender must not be null")
+    @Digits(fraction = 0, integer = 8, groups = {AddValidations.class, UpdateValidations.class}, message = "Date of birth must be between {min} and {max} chars")
+    private Integer dob;
+    
+    @NotNull(groups = {AddValidations.class}, message = "Profile must not be null")
 	private Profile profile;
 	
-    @NotNull(groups = {AddValidations.class}, message = "Type must not be null")
+    @NotNull(groups = {AddValidations.class}, message = "State must not be null")
     private UserState state;
+    
+    private List<ContactDomain> contactsDomain = new ArrayList<ContactDomain>();
+    		
 
-	public String getId() {
-		return id;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -98,14 +112,35 @@ public class UserDomain
 		this.state = state;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Integer getDob() {
+		return dob;
 	}
+
+	public void setDob(Integer dob) {
+		this.dob = dob;
+	}
+
+	public List<ContactDomain> getContactsDomain() {
+		return contactsDomain;
+	}
+
+	public void setContactsDomain(List<ContactDomain> contactsDomain) {
+		this.contactsDomain = contactsDomain;
+	}
+	
+    public void addContact(ContactDomain contact) {
+    	contactsDomain.add(contact);
+    	contact.setUser(this);
+    }
+ 
+    public void removeContact(ContactDomain contact) {
+    	contactsDomain.remove(contact);
+    	contact.setUser(null);
+    }
 
 	@Override
 	public String toString() {
-		return "UserDomain [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", profile=" + profile + ", state=" + state + "]";
-	}
+		return "UserDomain [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", dob=" + dob + ", profile=" + profile + ", state=" + state + ", contactsDomain=" + contactsDomain + "]";
+	}	
 
 }

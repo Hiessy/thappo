@@ -10,11 +10,11 @@ public interface UserService
 
     public PaginatedResponse<UserDomain> getUsers(PagingRequest params);
 
-    public UserDomain getUser(String id);
+    public UserDomain getUser(Integer id);
 
     public UserDomain addUser(UserDomain user);
 
-    public void deleteUser(String id);
+    public void deleteUser(Integer id);
 
     public UserDomain updateUser(UserDomain user);
 

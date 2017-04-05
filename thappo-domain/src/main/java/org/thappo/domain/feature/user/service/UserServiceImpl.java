@@ -68,8 +68,9 @@ public class UserServiceImpl implements UserService {
 		Page<User> usersEntity = this.dao.findAll(new PageRequest(alteredParams.getOffset(), alteredParams.getLimit(), new Sort(orders)));
 
 		LOGGER.debug(">>> Obtained " + usersEntity.getNumberOfElements() + " elements of  " + usersEntity.getTotalElements() + " total results");
+		LOGGER.info(usersEntity.getContent().get(0).getContacts().get(0).toString());
 		List<UserDomain> usersDomain = this.mapper.mapAsList(usersEntity.getContent(), UserDomain.class);
-
+		LOGGER.info(usersDomain.get(0).getContactsDomain().get(0).toString());
 		// Build paginated response
 		PagingResponse.Builder paging = new PagingResponse.Builder();
 		paging.setLimit(alteredParams.getLimit());
@@ -80,12 +81,12 @@ public class UserServiceImpl implements UserService {
 		return new PaginatedResponse<UserDomain>(usersDomain, sortings, paging.build());
 	}
 
-	public UserDomain getUser(@ValidId String id) {
+	public UserDomain getUser(@ValidId Integer id) {
         LOGGER.info("[DOMAIN] Executing getUser request");
         LOGGER.debug(">>> Request param: " + id);
         User userEntity = this.dao.findOne(id);
         if (userEntity == null) {
-            throw new InvalidIDException(new Cause(id, "Nonexistent ID"));
+            throw new InvalidIDException(new Cause(String.valueOf(id), "Nonexistent ID"));
         }
         return this.mapper.map(userEntity, UserDomain.class);
     }
@@ -99,13 +100,13 @@ public class UserServiceImpl implements UserService {
         return this.mapper.map(userEntityResponse, UserDomain.class);
     }
 
-    public void deleteUser(@ValidId String id) {
+    public void deleteUser(@ValidId Integer id) {
         LOGGER.info("[DOMAIN] Executing deleteUser request");
         LOGGER.debug(">>> Request param: " + id);
         try {
             this.dao.delete(id);
         } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
-            throw new InvalidIDException(new Cause(id, "Nonexistent ID"));
+            throw new InvalidIDException(new Cause(String.valueOf(id), "Nonexistent ID"));
         }
     }
 
@@ -115,9 +116,9 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("[DOMAIN] Executing updateUser request");
         LOGGER.debug(">>> Request params: " + user.toString());
         User userEntity = this.mapper.map(user, User.class);
-        User dbUser = this.dao.findOne(user.getId());
+        User dbUser = this.dao.findOne(user.getUserId());
         if (dbUser == null) {
-            throw new InvalidIDException(new Cause(user.getId(), "Nonexistent ID"));
+            throw new InvalidIDException(new Cause(String.valueOf(user.getUserId()), "Nonexistent ID"));
         }
 
         LOGGER.debug(">>> Merging with original data: " + dbUser.toString());
@@ -125,13 +126,18 @@ public class UserServiceImpl implements UserService {
         if (userEntity.getFirstName() == null) {
             userEntity.setFirstName(dbUser.getFirstName());
         }
+        
+        if (userEntity.getLastName() == null) {
+            userEntity.setLastName(dbUser.getLastName());
+        }
+        
         if (userEntity.getEmail() == null) {
             userEntity.setEmail(dbUser.getEmail());
         }
         if (userEntity.getPassword() == null) {
             userEntity.setPassword(dbUser.getPassword());
         }
-        if (userEntity.getDob() == 0) {
+        if (userEntity.getDob() == null) {
             userEntity.setDob(dbUser.getDob());
         }
         if (userEntity.getProfile() == null) {

@@ -10,9 +10,13 @@ import org.thappo.domain.feature.commons.model.BusinessDAO;
  * DOC: http://docs.spring.io/spring-data/jpa/docs/1.4.2.RELEASE/reference/html/jpa.repositories.html
  */
 
-public interface UserDAO extends BusinessDAO, JpaRepository<User, String> {
+public interface UserDAO extends BusinessDAO, JpaRepository<User, Integer> {
 
     List<User> findByEmail(String email, String asd);
+    
+	void delete(Integer id);
+
+	User findOne(Integer id);
 
 
 }

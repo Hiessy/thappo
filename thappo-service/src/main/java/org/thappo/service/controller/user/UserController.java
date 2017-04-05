@@ -1,4 +1,5 @@
 package org.thappo.service.controller.user;
+
 import ma.glasnost.orika.MapperFacade;
 
 import org.slf4j.Logger;
@@ -24,78 +25,72 @@ import org.thappo.domain.feature.commons.model.PagingRequest;
 @RequestMapping("/v3/users")
 public class UserController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private UserService userService;
-    private MapperFacade mapper;
+	private UserService userService;
+	private MapperFacade mapper;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+	@Autowired
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
-    @Autowired
-    @Qualifier("serviceMapper")
-    public void setMapper(MapperFacade mapper) {
-        this.mapper = mapper;
-    }
+	@Autowired
+	@Qualifier("serviceMapper")
+	public void setMapper(MapperFacade mapper) {
+		this.mapper = mapper;
+	}
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<PaginatedResponse<UserDTO>> getUsers(PagingRequestDTO params)
-        throws ValidationException {
-        LOGGER.info("[CONTROLLER] Starting getUsers request");
-        LOGGER.debug(">>> Recieved params: " + params.toString());
-        PagingRequest pagingRequest = this.mapper.map(params, PagingRequest.class);
-        PaginatedResponse<UserDomain> usersDomain = this.userService.getUsers(pagingRequest);
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public ResponseEntity<PaginatedResponse<UserDTO>> getUsers(PagingRequestDTO params) throws ValidationException {
+		LOGGER.info("[CONTROLLER] Starting getUsers request");
+		LOGGER.debug(">>> Recieved params: " + params.toString());
+		PagingRequest pagingRequest = this.mapper.map(params, PagingRequest.class);
+		PaginatedResponse<UserDomain> usersDomain = this.userService.getUsers(pagingRequest);
 
-        PaginatedResponse.Builder<UserDTO> paginatedResponseBuilder = new PaginatedResponse.Builder<UserDTO>();
-        paginatedResponseBuilder.setPaging(usersDomain.getPaging());
-        paginatedResponseBuilder.setOrderBy(usersDomain.getOrderBy());
-        paginatedResponseBuilder.setItems(this.mapper.mapAsList(usersDomain.getItems(), UserDTO.class));
+		PaginatedResponse.Builder<UserDTO> paginatedResponseBuilder = new PaginatedResponse.Builder<UserDTO>();
+		paginatedResponseBuilder.setPaging(usersDomain.getPaging());
+		paginatedResponseBuilder.setOrderBy(usersDomain.getOrderBy());
+		paginatedResponseBuilder.setItems(this.mapper.mapAsList(usersDomain.getItems(), UserDTO.class));
 
-        return new ResponseEntity<PaginatedResponse<UserDTO>>(paginatedResponseBuilder.build(), HttpStatus.OK);
-    }
+		return new ResponseEntity<PaginatedResponse<UserDTO>>(paginatedResponseBuilder.build(), HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<UserDTO> getUser(@PathVariable("userId") String userId) throws ValidationException {
-        LOGGER.info("[CONTROLLER] Starting getUser request");
-        LOGGER.debug(">>> Recieved param: " + userId);
-        UserDomain userDomain = this.userService.getUser(userId);
-        UserDTO result = this.mapper.map(userDomain, UserDTO.class);
-        return new ResponseEntity<UserDTO>(result, HttpStatus.OK);
-    }
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Integer userId) throws ValidationException {
+		LOGGER.info("[CONTROLLER] Starting getUser request");
+		LOGGER.debug(">>> Recieved param: " + userId);
+		UserDomain userDomain = this.userService.getUser(userId);
+		UserDTO result = this.mapper.map(userDomain, UserDTO.class);
+		return new ResponseEntity<UserDTO>(result, HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<UserDTO> postUser(@RequestBody UserDTO userRequestDTO)
-        throws ValidationException {
-        LOGGER.info("[CONTROLLER] Starting postUser request");
-        LOGGER.debug(">>> Recieved params: " + userRequestDTO.toString());
-        UserDomain userDomain = this.mapper.map(userRequestDTO, UserDomain.class);
-        UserDomain userDomainResponse = this.userService.addUser(userDomain);
-        UserDTO userResponseDTO = this.mapper.map(userDomainResponse, UserDTO.class);
-        return new ResponseEntity<UserDTO>(userResponseDTO, HttpStatus.OK);
-    }
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public ResponseEntity<UserDTO> postUser(@RequestBody UserDTO userRequestDTO) throws ValidationException {
+		LOGGER.info("[CONTROLLER] Starting postUser request");
+		LOGGER.debug(">>> Recieved params: " + userRequestDTO.toString());
+		UserDomain userDomain = this.mapper.map(userRequestDTO, UserDomain.class);
+		UserDomain userDomainResponse = this.userService.addUser(userDomain);
+		UserDTO userResponseDTO = this.mapper.map(userDomainResponse, UserDTO.class);
+		return new ResponseEntity<UserDTO>(userResponseDTO, HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-    public ResponseEntity<UserDTO> putUser(@RequestBody UserDTO userRequestDTO,
-        @PathVariable("userId") int userId) throws ValidationException {
-        LOGGER.info("[CONTROLLER] Starting putUser request");
-        userRequestDTO.setId(userId);
-        LOGGER.debug(">>> Recieved params: " + userRequestDTO.toString());
-        UserDomain userDomain = this.mapper.map(userRequestDTO, UserDomain.class);
-        UserDomain userDomainResponse = this.userService.updateUser(userDomain);
-        UserDTO userResponseDTO = this.mapper.map(userDomainResponse, UserDTO.class);
-        return new ResponseEntity<UserDTO>(userResponseDTO, HttpStatus.OK);
-    }
+	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
+	public ResponseEntity<UserDTO> putUser(@RequestBody UserDTO userRequestDTO, @PathVariable("userId") Integer userId) throws ValidationException {
+		LOGGER.info("[CONTROLLER] Starting put User request");
+		userRequestDTO.setUserId(userId);
+		LOGGER.debug(">>> Recieved params: " + userRequestDTO.toString());
+		UserDomain userDomain = this.mapper.map(userRequestDTO, UserDomain.class);
+		UserDomain userDomainResponse = this.userService.updateUser(userDomain);
+		UserDTO userResponseDTO = this.mapper.map(userDomainResponse, UserDTO.class);
+		return new ResponseEntity<UserDTO>(userResponseDTO, HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable("userId") String userId) throws ValidationException {
-        LOGGER.info("[CONTROLLER] Starting deleteUser request");
-        LOGGER.debug(">>> Recieved param: " + userId);
-        this.userService.deleteUser(userId);
-    }
-
+	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+	public void deleteUser(@PathVariable("userId") Integer userId) throws ValidationException {
+		LOGGER.info("[CONTROLLER] Starting deleteUser request");
+		LOGGER.debug(">>> Recieved param: " + userId);
+		this.userService.deleteUser(userId);
+	}
 
 }
-
-

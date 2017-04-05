@@ -1,23 +1,32 @@
 package org.thappo.domain.feature.user.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.thappo.commons.enumeration.Profile;
 import org.thappo.commons.enumeration.UserState;
 import org.thappo.domain.feature.commons.model.AbstractEntity;
+import org.thappo.domain.feature.contact.model.Contact;
 
 @Entity
 @Table(name = "users")
 public class User extends AbstractEntity {
 
 	@Id
-	@Column(name = "id", unique = true)
-	private int id;
+	@Column(name = "user_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer userId;
 
 	@Column(name = "first_name")
 	private String firstName;
@@ -32,7 +41,7 @@ public class User extends AbstractEntity {
 	private String password;
 	
 	@Column(name = "dob")
-	private int dob;
+	private Integer dob;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "profile")
@@ -41,13 +50,21 @@ public class User extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state")
 	private UserState state;
+	
+	@OneToMany(
+	        mappedBy = "user", 
+	        cascade = CascadeType.ALL, 
+	        orphanRemoval = true
+	    )
+	private List<Contact> contacts = new ArrayList<Contact>();
 
-	public int getId() {
-		return id;
+
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -82,11 +99,11 @@ public class User extends AbstractEntity {
 		this.password = password;
 	}
 
-	public int getDob() {
+	public Integer getDob() {
 		return dob;
 	}
 
-	public void setDob(int dob) {
+	public void setDob(Integer dob) {
 		this.dob = dob;
 	}
 
@@ -106,9 +123,27 @@ public class User extends AbstractEntity {
 		this.profile = profile;
 	}
 
+    public void addContact(Contact contact) {
+    	contacts.add(contact);
+    	contact.setUser(this);
+    }
+ 
+    public void removeContact(Contact contact) {
+    	contacts.remove(contact);
+    	contact.setUser(null);
+    }
+	       
+	public List<Contact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(List<Contact> contacts) {
+		this.contacts = contacts;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", password=" + password + ", dob=" + dob + ", profile=" + profile + ", state=" + state + "]";
 	}
 

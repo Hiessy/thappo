@@ -12,7 +12,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Size;
 
-@Size(min = 3, max = 32)
+@Size(min = 1, max = 32)
 @Target({FIELD, PARAMETER, LOCAL_VARIABLE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})

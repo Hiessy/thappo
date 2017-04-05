@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MethodScanner {
 	
-	private Method method;
+	//private Method method;
     private List<Argument> arguments;
 
 
