@@ -68,9 +68,7 @@ public class UserServiceImpl implements UserService {
 		Page<User> usersEntity = this.dao.findAll(new PageRequest(alteredParams.getOffset(), alteredParams.getLimit(), new Sort(orders)));
 
 		LOGGER.debug(">>> Obtained " + usersEntity.getNumberOfElements() + " elements of  " + usersEntity.getTotalElements() + " total results");
-		LOGGER.info(usersEntity.getContent().get(0).getContacts().get(0).toString());
 		List<UserDomain> usersDomain = this.mapper.mapAsList(usersEntity.getContent(), UserDomain.class);
-		LOGGER.info(usersDomain.get(0).getContactsDomain().get(0).toString());
 		// Build paginated response
 		PagingResponse.Builder paging = new PagingResponse.Builder();
 		paging.setLimit(alteredParams.getLimit());

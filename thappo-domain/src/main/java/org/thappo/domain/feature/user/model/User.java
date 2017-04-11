@@ -1,9 +1,5 @@
 package org.thappo.domain.feature.user.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,13 +7,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.thappo.commons.enumeration.AccountState;
 import org.thappo.commons.enumeration.Profile;
-import org.thappo.commons.enumeration.UserState;
 import org.thappo.domain.feature.commons.model.AbstractEntity;
-import org.thappo.domain.feature.contact.model.Contact;
 
 @Entity
 @Table(name = "users")
@@ -49,15 +43,10 @@ public class User extends AbstractEntity {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state")
-	private UserState state;
+	private AccountState state;
 	
-	@OneToMany(
-	        mappedBy = "user", 
-	        cascade = CascadeType.ALL, 
-	        orphanRemoval = true
-	    )
-	private List<Contact> contacts = new ArrayList<Contact>();
-
+	@Column(name = "telephone")
+    private String telephone;
 
 	public Integer getUserId() {
 		return userId;
@@ -107,11 +96,11 @@ public class User extends AbstractEntity {
 		this.dob = dob;
 	}
 
-	public UserState getState() {
+	public AccountState getState() {
 		return state;
 	}
 
-	public void setState(UserState state) {
+	public void setState(AccountState state) {
 		this.state = state;
 	}
 
@@ -123,29 +112,21 @@ public class User extends AbstractEntity {
 		this.profile = profile;
 	}
 
-    public void addContact(Contact contact) {
-    	contacts.add(contact);
-    	contact.setUser(this);
-    }
- 
-    public void removeContact(Contact contact) {
-    	contacts.remove(contact);
-    	contact.setUser(null);
-    }
-	       
-	public List<Contact> getContacts() {
-		return contacts;
+	public String getTelephone() {
+		return telephone;
 	}
 
-	public void setContacts(List<Contact> contacts) {
-		this.contacts = contacts;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", dob=" + dob + ", profile=" + profile + ", state=" + state + "]";
+				+ ", password=" + password + ", dob=" + dob + ", profile=" + profile + ", state=" + state
+				+ ", telephone=" + telephone + "]";
 	}
 
+	
 
 }

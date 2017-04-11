@@ -1,15 +1,13 @@
-package org.thappo.domain.feature.contact.model;
+package org.thappo.api.user.models;
 
-import org.thappo.domain.feature.user.model.User;
-import org.thappo.domain.feature.user.model.UserDomain;
+public class Contact extends AbstractDTO {
 
-public class ContactDomain {
+	private static final long serialVersionUID = 1L;
 
 	private Integer contactId;
 	private String cellphone;
 	private String telephone;
 	private String address;
-	private UserDomain userDomain;
 
 	public Integer getContactId() {
 		return contactId;
@@ -43,17 +41,9 @@ public class ContactDomain {
 		this.address = address;
 	}
 
-	public UserDomain getUser() {
-		return userDomain;
-	}
-
-	public void setUser(UserDomain userDomain) {
-		this.userDomain = userDomain;
-	}
-
 	@Override
 	public String toString() {
-		return "ContactDomain [contactId=" + contactId + ", cellphone=" + cellphone + ", telephone=" + telephone + ", address=" + address + ", userDomain=" + userDomain + "]";
+		return "ContactDTO [contactId=" + contactId + ", cellphone=" + cellphone + ", telephone=" + telephone + ", address=" + address + "]";
 	}
 
 }

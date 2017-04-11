@@ -1,10 +1,7 @@
 package org.thappo.api.user.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.thappo.commons.enumeration.AccountState;
 import org.thappo.commons.enumeration.Profile;
-import org.thappo.commons.enumeration.UserState;
 
 public class UserDTO extends AbstractDTO {
 
@@ -17,8 +14,8 @@ public class UserDTO extends AbstractDTO {
     private String password;
     private Integer dob;
     private Profile profile;
-    private UserState state;
-    private List<ContactDTO> contactsDTO = new ArrayList<ContactDTO>();
+    private AccountState state;
+    private String telephone;
     
 	public Integer getUserId() {
 		return userId;
@@ -44,13 +41,12 @@ public class UserDTO extends AbstractDTO {
 	public void setDob(Integer dob) {
 		this.dob = dob;
 	}
-	public UserState getState() {
+	public AccountState getState() {
 		return state;
 	}
-	public void setState(UserState state) {
+	public void setState(AccountState state) {
 		this.state = state;
 	}
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -69,15 +65,16 @@ public class UserDTO extends AbstractDTO {
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
-	public List<ContactDTO> getContactsDTO() {
-		return contactsDTO;
+	public String getTelephone() {
+		return telephone;
 	}
-	public void setContactsDTO(List<ContactDTO> contactsDTO) {
-		this.contactsDTO = contactsDTO;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 	@Override
 	public String toString() {
-		return "UserDTO [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password + ", dob=" + dob + ", profile=" + profile + ", state=" + state + ", contactsDTO=" + contactsDTO + "]";
+		return "UserDTO [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", dob=" + dob + ", profile=" + profile + ", state=" + state
+				+ ", telephone=" + telephone + "]";
 	}
-
 }
