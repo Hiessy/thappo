@@ -19,7 +19,7 @@ import org.thappo.commons.annotation.Valid;
 import org.thappo.commons.annotation.ValidateGroups;
 import org.thappo.commons.model.Cause;
 import org.thappo.domain.exception.InvalidIDException;
-import org.thappo.domain.feature.user.dao.UserDAO;
+import org.thappo.domain.feature.user.dao.BusinessDAO;
 import org.thappo.domain.feature.user.model.User;
 import org.thappo.domain.feature.user.model.UserDomain;
 import org.thappo.domain.feature.user.model.UserDomain.AddValidations;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-	private UserDAO dao;
+	private BusinessDAO dao;
 	private MapperFacade mapper;
 
 	@Autowired
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 	private UserDefaultValuesLoader defaultValuesLoader;
 
 	@Autowired
-	public UserServiceImpl(UserDAO dao) {
+	public UserServiceImpl(BusinessDAO dao) {
 		this.dao = dao;
 	}
 

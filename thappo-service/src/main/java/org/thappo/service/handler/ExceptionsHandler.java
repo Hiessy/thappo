@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.thappo.api.user.models.response.ErrorResponseDTO;
+import org.thappo.api.models.response.ErrorResponseDTO;
 import org.thappo.commons.exception.BusinessException;
 import org.thappo.service.exception.BusinessCodes;
 

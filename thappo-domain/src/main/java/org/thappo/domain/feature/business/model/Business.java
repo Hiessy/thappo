@@ -12,19 +12,19 @@ import javax.persistence.Table;
 
 import org.thappo.domain.feature.user.model.User;
 
-@Entity
-@Table(name = "businesses")
+//@Entity
+//@Table(name = "businesses")
 public class Business {
 
-	@Id
-	@Column(name = "business_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@Id
+//	@Column(name = "business_id")
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer businessId;
 	
-	@Column(name = "user_id")
+//	@Column(name = "user_id")
 	private User user;
 	
-	@Column(name = "category_id")
+//	@Column(name = "category_id")
 	private Category category;
 
 	private List<Branch> branches = new ArrayList<Branch>();

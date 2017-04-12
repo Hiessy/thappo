@@ -1,12 +1,10 @@
 package org.thappo.domain.feature.user.service;
 
 import org.thappo.domain.feature.user.model.UserDomain;
-import org.thappo.domain.feature.commons.model.BusinessService;
 import org.thappo.domain.feature.commons.model.PaginatedResponse;
 import org.thappo.domain.feature.commons.model.PagingRequest;
 
-public interface UserService
-    extends BusinessService {
+public interface UserService {
 
     public PaginatedResponse<UserDomain> getUsers(PagingRequest params);
 

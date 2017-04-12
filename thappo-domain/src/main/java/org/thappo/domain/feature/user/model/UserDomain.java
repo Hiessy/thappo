@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 
 import org.thappo.commons.enumeration.AccountState;
 import org.thappo.commons.enumeration.Profile;
-import org.thappo.commons.enumeration.UserState;
 import org.thappo.domain.feature.commons.model.AbstractDomain;
 
 public class UserDomain extends AbstractDomain {

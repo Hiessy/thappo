@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.thappo.api.user.models.request.model.PagingRequestDTO;
+import org.thappo.api.models.request.PagingRequestDTO;
 import org.thappo.domain.feature.commons.model.PagingRequest;
 	
 public class CustomPagingRequestMapper extends CustomMapper<PagingRequest, PagingRequestDTO> {
