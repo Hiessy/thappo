@@ -8,25 +8,31 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.thappo.domain.feature.user.model.User;
 
-//@Entity
-//@Table(name = "businesses")
+@Entity
+@Table(name = "businesses")
 public class Business {
 
-//	@Id
-//	@Column(name = "business_id")
-//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "business_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer businessId;
 	
-//	@Column(name = "user_id")
+	@OneToOne
+	@JoinColumn(name = "user_id")
 	private User user;
 	
-//	@Column(name = "category_id")
+	@OneToOne
+	@JoinColumn(name = "category_id")
 	private Category category;
 
+	@OneToMany(mappedBy="business")
 	private List<Branch> branches = new ArrayList<Branch>();
 	
 	public Integer getBusinessId() {
