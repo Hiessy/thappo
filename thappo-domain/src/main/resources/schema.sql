@@ -14,16 +14,15 @@ state varchar(10)NOT NULL,
 telephone VARCHAR(45) NULL,
 PRIMARY KEY (user_id)
 );
-
 -- -----------------------------------------------------
 -- Table categories
 -- -----------------------------------------------------
---CREATE TABLE categories (
---category_id INT NOT NULL,
---category_name VARCHAR(45) NOT NULL,
---description VARCHAR(255) NULL,
---PRIMARY KEY (category_id),
---UNIQUE INDEX category_name_UNIQUE (category_name ASC));
+CREATE TABLE categories (
+category_id INT NOT NULL,
+category_name VARCHAR(45) NOT NULL,
+description VARCHAR(255) NULL,
+PRIMARY KEY (category_id),
+UNIQUE INDEX category_name_UNIQUE (category_name ASC));
 --
 ---- -----------------------------------------------------
 ---- Table businesses

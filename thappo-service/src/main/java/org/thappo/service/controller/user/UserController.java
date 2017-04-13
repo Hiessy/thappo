@@ -24,7 +24,7 @@ import org.thappo.domain.feature.commons.model.PagingRequest;
 
 @RestController
 @RequestMapping("/v3/users")
-//@CrossOrigin(origins = "http://localhost:8090")
+@CrossOrigin()
 public class UserController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);

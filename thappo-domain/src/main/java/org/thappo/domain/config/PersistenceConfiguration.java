@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -71,22 +72,23 @@ public class PersistenceConfiguration {
 		return entityManagerFactoryBean;
 	}
 
-	 @Bean
-	    JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-	        JpaTransactionManager transactionManager = new JpaTransactionManager();
-	        transactionManager.setEntityManagerFactory(entityManagerFactory);
-	        return transactionManager;
-	    }
-	
+	@Bean
+	JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactory);
+		return transactionManager;
+	}
+
 	// @Autowired
 	// private Environment env;
 	//
 	// @Autowired
 	// private DataSource dataSource;
-	//
+
 	// @Bean
 	// public LocalContainerEntityManagerFactoryBean
 	// entityManagerFactory(EntityManagerFactoryBuilder builder) {
+	//
 	// LocalContainerEntityManagerFactoryBean entityManager = new
 	// LocalContainerEntityManagerFactoryBean();
 	// entityManager.setDataSource(this.dataSource);
@@ -96,7 +98,7 @@ public class PersistenceConfiguration {
 	// entityManager.setJpaVendorAdapter(vendorAdapter);
 	// return entityManager;
 	// }
-	//
+
 	// @Bean
 	// public PlatformTransactionManager transactionManager(EntityManagerFactory
 	// emf) {
@@ -104,11 +106,10 @@ public class PersistenceConfiguration {
 	// transactionManager.setEntityManagerFactory(emf);
 	// return transactionManager;
 	// }
-	//
-	// @Bean
-	// public PersistenceExceptionTranslationPostProcessor
-	// exceptionTranslation() {
-	// return new PersistenceExceptionTranslationPostProcessor();
-	// }
+
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+		return new PersistenceExceptionTranslationPostProcessor();
+	}
 
 }
