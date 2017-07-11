@@ -59,7 +59,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Integer userId) throws ValidationException {
+	public ResponseEntity<UserDTO> lookUpUser(@PathVariable("userId") Integer userId) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting getUser request");
 		LOGGER.debug(">>> Recieved param: " + userId);
 		UserDomain userDomain = this.userService.getUser(userId);
@@ -68,7 +68,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<UserDTO> postUser(@RequestBody UserDTO userRequestDTO) throws ValidationException {
+	public ResponseEntity<UserDTO> createNewUser(@RequestBody UserDTO userRequestDTO) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting postUser request");
 		LOGGER.debug(">>> Recieved params: " + userRequestDTO.toString());
 		UserDomain userDomain = this.mapper.map(userRequestDTO, UserDomain.class);
@@ -78,7 +78,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-	public ResponseEntity<UserDTO> putUser(@RequestBody UserDTO userRequestDTO, @PathVariable("userId") Integer userId) throws ValidationException {
+	public ResponseEntity<UserDTO> modifyUser(@RequestBody UserDTO userRequestDTO, @PathVariable("userId") Integer userId) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting put User request");
 		userRequestDTO.setUserId(userId);
 		LOGGER.debug(">>> Recieved params: " + userRequestDTO.toString());
@@ -89,10 +89,12 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-	public void deleteUser(@PathVariable("userId") Integer userId) throws ValidationException {
+	public ResponseEntity<UserDTO> removeUser(@PathVariable("userId") Integer userId) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting deleteUser request");
 		LOGGER.debug(">>> Recieved param: " + userId);
-		this.userService.deleteUser(userId);
+		this.userService.changeUserToInactive(userId);
+		UserDTO result = this.mapper.map(this.userService.getUser(userId), UserDTO.class);
+		return new ResponseEntity<UserDTO>(result, HttpStatus.OK);
 	}
 
 }

@@ -19,7 +19,7 @@ import org.thappo.commons.annotation.Valid;
 import org.thappo.commons.annotation.ValidateGroups;
 import org.thappo.commons.model.Cause;
 import org.thappo.domain.exception.InvalidIDException;
-import org.thappo.domain.feature.user.dao.BusinessDAO;
+import org.thappo.domain.feature.user.dao.UsersDAO;
 import org.thappo.domain.feature.user.model.User;
 import org.thappo.domain.feature.user.model.UserDomain;
 import org.thappo.domain.feature.user.model.UserDomain.AddValidations;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-	private BusinessDAO dao;
+	private UsersDAO dao;
 	private MapperFacade mapper;
 
 	@Autowired
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 	private UserDefaultValuesLoader defaultValuesLoader;
 
 	@Autowired
-	public UserServiceImpl(BusinessDAO dao) {
+	public UserServiceImpl(UsersDAO dao) {
 		this.dao = dao;
 	}
 
@@ -80,76 +80,83 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public UserDomain getUser(@ValidId Integer id) {
-        LOGGER.info("[DOMAIN] Executing getUser request");
-        LOGGER.debug(">>> Request param: " + id);
-        User userEntity = this.dao.findOne(id);
-        if (userEntity == null) {
-            throw new InvalidIDException(new Cause(String.valueOf(id), "Nonexistent ID"));
-        }
-        return this.mapper.map(userEntity, UserDomain.class);
-    }
+		LOGGER.info("[DOMAIN] Executing getUser request");
+		LOGGER.debug(">>> Request param: " + id);
+		User userEntity = this.dao.findOne(id);
+		if (userEntity == null) {
+			throw new InvalidIDException(new Cause(String.valueOf(id), "Nonexistent ID"));
+		}
+		return this.mapper.map(userEntity, UserDomain.class);
+	}
 
-    @ValidateGroups(AddValidations.class)
-    public UserDomain addUser(@Valid UserDomain user) {
-        LOGGER.info("[DOMAIN] Executing addUser request");
-        LOGGER.debug(">>> Request params: " + user.toString());
-        User userEntity = this.mapper.map(user, User.class);
-        User userEntityResponse = this.dao.save(userEntity);
-        return this.mapper.map(userEntityResponse, UserDomain.class);
-    }
+	@ValidateGroups(AddValidations.class)
+	public UserDomain addUser(@Valid UserDomain user) {
+		LOGGER.info("[DOMAIN] Executing addUser request");
+		LOGGER.debug(">>> Request params: " + user.toString());
+		User userEntity = this.mapper.map(user, User.class);
+		User userEntityResponse = this.dao.save(userEntity);
+		return this.mapper.map(userEntityResponse, UserDomain.class);
+	}
 
-    public void deleteUser(@ValidId Integer id) {
-        LOGGER.info("[DOMAIN] Executing deleteUser request");
-        LOGGER.debug(">>> Request param: " + id);
-        try {
-            this.dao.delete(id);
-        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
-            throw new InvalidIDException(new Cause(String.valueOf(id), "Nonexistent ID"));
-        }
-    }
+	public void deleteUser(@ValidId Integer id) {
+		LOGGER.info("[DOMAIN] Executing deleteUser request");
+		LOGGER.debug(">>> Request param: " + id);
+		try {
+			this.dao.delete(id);
+		} catch (EmptyResultDataAccessException emptyResultDataAccessException) {
+			throw new InvalidIDException(new Cause(String.valueOf(id), "Nonexistent ID"));
+		}
+	}
 
-    @ValidateGroups(UpdateValidations.class)
-    public UserDomain updateUser(@Valid UserDomain user) {
-        
-        LOGGER.info("[DOMAIN] Executing updateUser request");
-        LOGGER.debug(">>> Request params: " + user.toString());
-        User userEntity = this.mapper.map(user, User.class);
-        User dbUser = this.dao.findOne(user.getUserId());
-        if (dbUser == null) {
-            throw new InvalidIDException(new Cause(String.valueOf(user.getUserId()), "Nonexistent ID"));
-        }
+	public void changeUserToInactive(@ValidId Integer id) {
 
-        LOGGER.debug(">>> Merging with original data: " + dbUser.toString());
-        
-        if (userEntity.getFirstName() == null) {
-            userEntity.setFirstName(dbUser.getFirstName());
-        }
-        
-        if (userEntity.getLastName() == null) {
-            userEntity.setLastName(dbUser.getLastName());
-        }
-        
-        if (userEntity.getEmail() == null) {
-            userEntity.setEmail(dbUser.getEmail());
-        }
-        if (userEntity.getPassword() == null) {
-            userEntity.setPassword(dbUser.getPassword());
-        }
-        if (userEntity.getDob() == null) {
-            userEntity.setDob(dbUser.getDob());
-        }
-        if (userEntity.getProfile() == null) {
-            userEntity.setProfile(dbUser.getProfile());
-        }
-        if (userEntity.getState() == null) {
-            userEntity.setState(dbUser.getState());
-        }
+		LOGGER.info("[DOMAIN] Executing change user to inactive request");
+		LOGGER.debug(">>> Request params id: " + id + ", will be set to inactive");
+		LOGGER.info("Changing user= " + id + " state to inactive: " + this.dao.setUserStateToInactive(id));
 
+	}
 
-        LOGGER.debug(">>> Saving user: " + userEntity.toString());
-        User userEntityResponse = this.dao.save(userEntity);
-        
-        return this.mapper.map(userEntityResponse, UserDomain.class);
-    }
+	@ValidateGroups(UpdateValidations.class)
+	public UserDomain updateUser(@Valid UserDomain user) {
+
+		LOGGER.info("[DOMAIN] Executing updateUser request");
+		LOGGER.debug(">>> Request params: " + user.toString());
+		User userEntity = this.mapper.map(user, User.class);
+		User dbUser = this.dao.findOne(user.getUserId());
+		if (dbUser == null) {
+			throw new InvalidIDException(new Cause(String.valueOf(user.getUserId()), "Nonexistent ID"));
+		}
+
+		LOGGER.debug(">>> Merging with original data: " + dbUser.toString());
+
+		if (userEntity.getFirstName() == null) {
+			userEntity.setFirstName(dbUser.getFirstName());
+		}
+
+		if (userEntity.getLastName() == null) {
+			userEntity.setLastName(dbUser.getLastName());
+		}
+
+		if (userEntity.getEmail() == null) {
+			userEntity.setEmail(dbUser.getEmail());
+		}
+		if (userEntity.getPassword() == null) {
+			userEntity.setPassword(dbUser.getPassword());
+		}
+		if (userEntity.getDob() == null) {
+			userEntity.setDob(dbUser.getDob());
+		}
+		if (userEntity.getProfile() == null) {
+			userEntity.setProfile(dbUser.getProfile());
+		}
+		if (userEntity.getState() == null) {
+			userEntity.setState(dbUser.getState());
+		}
+
+		LOGGER.debug(">>> Saving user: " + userEntity.toString());
+		User userEntityResponse = this.dao.save(userEntity);
+
+		return this.mapper.map(userEntityResponse, UserDomain.class);
+	}
 
 }

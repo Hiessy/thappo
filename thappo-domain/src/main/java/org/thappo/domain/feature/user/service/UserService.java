@@ -14,6 +14,8 @@ public interface UserService {
 
     public void deleteUser(Integer id);
 
+    public void changeUserToInactive(Integer id);
+    
     public UserDomain updateUser(UserDomain user);
 
 }

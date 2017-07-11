@@ -7,14 +7,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.thappo.commons.enumeration.AccountState;
 import org.thappo.commons.enumeration.Profile;
 import org.thappo.domain.feature.commons.model.AbstractEntity;
 
-@Entity
-@Table(name = "users")
+@Entity(name = "users")
 public class User extends AbstractEntity {
 
 	@Id

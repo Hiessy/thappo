@@ -8,19 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.thappo.commons.annotation.Valid;
 import org.thappo.commons.annotation.ValidateGroups;
-import org.thappo.commons.model.Cause;
-import org.thappo.domain.exception.InvalidIDException;
-import org.thappo.domain.feature.user.dao.BusinessDAO;
-import org.thappo.domain.feature.user.model.User;
-import org.thappo.domain.feature.user.model.UserDomain;
+import org.thappo.domain.feature.user.dao.UsersDAO;
 import org.thappo.domain.feature.user.model.UserDomain.AddValidations;
 import org.thappo.domain.feature.user.model.UserDomain.UpdateValidations;
 import org.thappo.domain.feature.user.service.support.UserCriteriaSupport;
@@ -29,15 +22,13 @@ import org.thappo.domain.feature.business.model.BusinessDomain;
 import org.thappo.domain.feature.commons.annotation.ValidId;
 import org.thappo.domain.feature.commons.model.PaginatedResponse;
 import org.thappo.domain.feature.commons.model.PagingRequest;
-import org.thappo.domain.feature.commons.model.PagingResponse;
-import org.thappo.domain.feature.commons.model.SelectableOrder;
 
 @Service("businessService")
 public class BusinessServiceImpl implements BusinessService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BusinessServiceImpl.class);
 
-	private BusinessDAO dao;
+	//private UsersDAO dao;
 	private MapperFacade mapper;
 
 	@Autowired
@@ -47,8 +38,8 @@ public class BusinessServiceImpl implements BusinessService {
 	private UserDefaultValuesLoader defaultValuesLoader;
 
 	@Autowired
-	public BusinessServiceImpl(BusinessDAO dao) {
-		this.dao = dao;
+	public BusinessServiceImpl() {
+		//this.dao = dao;
 	}
 
 	@Autowired
