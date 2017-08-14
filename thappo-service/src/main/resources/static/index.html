@@ -1,91 +1,201 @@
-<!DOCTYPE html>
 <html>
 <head>
-	<title>Registration Form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Ingresar</title>
+<link rel="stylesheet" href="css/bootstrap-theme.css">
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/starter-template.css">
 
-	<!-- Include CSS File Here -->
-	<link rel="stylesheet" href="css/style.css"/>
-	<!-- Include JS File Here -->
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="js/registration.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script	src="js/bootstrap.min.js"></script>
+<script	src="js/validator.min.js"></script>
 </head>
 <body>
 	<div class="container">
-		<div class="main">
-			<fieldset>  
-				<div class="form-vertical">
-
-					<div class="editor-label">  
-						First Name  
-					</div>  
-					<div class="editor-label">  
-						<input type="text" id="txtFirstName" />  
-					</div>  
-
-					<div class="editor-label">  
-						Last Name  
-					</div>  
-					<div class="editor-label">  
-						<input type="text" id="txtLastName" />  
-					</div>  
-
-					<div class="editor-label">  
-						Email  
-					</div>  
-					<div class="editor-label">  
-						<input type="text" id="txtEmail" />  
-					</div>  
-
-					<div class="editor-label">  
-						Confirm Email  
-					</div>  
-					<div class="editor-label">  
-						<input type="text" id="txtConfEmail" />  
-					</div> 
-
-					<div class="editor-label">  
-						Password 
-					</div>  
-					<div class="editor-label">  
-						<input type="text" id="txtPassword" />  
+		<div id="loginbox" style="margin-top: 50px;"
+			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">Sign In</div>
+					<div
+						style="float: right; font-size: 80%; position: relative; top: -10px">
+						<a href="#">Forgot password?</a>
 					</div>
+				</div>
+				<div style="padding-top: 30px" class="panel-body">
 
-					<div class="editor-label">  
-						Confirm Password  
-					</div>  
-					<div class="editor-label">  
-						<input type="text" id="txtConPassword" />  
-					</div>
+					<div style="display: none" id="login-alert"
+						class="alert alert-danger col-sm-12"></div>
 
-					<div class="editor-label">  
-						Date of birth  
-					</div>  
-					<div class="editor-label">  
-						<input type="text" id="txtDob" />  
-					</div>  
+					<form id="loginform" class="form-horizontal" role="form">
 
-					<div class="editor-label">  
-						Telephone  
-					</div>  
-					<div class="editor-label">  
-						<input type="text" id="txtTelephone" />  
-					</div> 
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-user"></i></span> <input id="login-username"
+								type="text" class="form-control" name="username" value=""
+								placeholder="username or email">
+						</div>
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-lock"></i></span> <input id="login-password"
+								type="password" class="form-control" name="password"
+								placeholder="password">
+						</div>
+						<div class="input-group">
+							<div class="checkbox">
+								<label> <input id="login-remember" type="checkbox"
+									name="remember" value="1"> Remember me
+								</label>
+							</div>
+						</div>
+						<div style="margin-top: 10px" class="form-group">
+							<!-- Button -->
 
-					<div class="editor-label">  
-						<br />  
-
-
-						<input class="btn-default" type="button" id="btnSave" value="Save" />  
-						<input class="btn-default" type="button" id="btton" value="Test" /> 
-					</div>  
-				</div>  
-			</fieldset> 
+							<div class="col-sm-12 controls">
+								<a id="btn-login" href="#" class="btn btn-success">Login </a> <a
+									id="btn-fblogin" href="#" class="btn btn-primary">Login
+									with Facebook</a>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12 control">
+								<div
+									style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
+									Don't have an account! <a href="#"
+										onClick="$('#loginbox').hide(); $('#signupbox').show()">
+										Sign Up Here </a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
-	</body>
+		<div id="signupbox" style="display: none; margin-top: 50px"
+			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="col-md">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong>Fomulario de Registro</strong>
+					</div>
+					<div class="panel-body">
 
-	<!--
+						<form action="${pageContext.request.contextPath}/saveUser"
+							method="post" role="form" class="form-horizontal"
+							data-toggle="validator">
+							<fieldset>
 
+								<!-- Text input  has-success has-feedback -->
+								<div class="form-group has-feedback">
+									<label class="control-label col-md-2" for="fn">First
+										name</label>
+									<div class="inputGroupContainer col-md-8">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-user"></i></span> <input id="fn"
+												name="fn" type="text" placeholder="first name"
+												class="form-control input-md" required>
+											<div class="glyphicon form-control-feedback"></div>
+										</div>
+									</div>
+								</div>
 
+								<!-- Text input-->
+								<div class="form-group has-feedback">
+									<label class="control-label col-md-2" for="ln">Last
+										name</label>
+									<div class="inputGroupContainer col-md-8">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-user"></i></span> <input id="ln"
+												name="ln" type="text" placeholder="last name"
+												class="form-control input-md" required>
+											<div class="glyphicon form-control-feedback"></div>
+										</div>
+									</div>
+								</div>
 
-    "telephone": "1586598654"
-	-->
+								<!-- Text input-->
+								<div class="form-group has-feedback">
+									<label class="control-label col-md-2" for="un">User
+										name</label>
+									<div class="inputGroupContainer col-md-8">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-user"></i></span> <input id="un"
+												name="un" type="text" placeholder="user name"
+												class="form-control input-md" required>
+											<div class="glyphicon form-control-feedback"></div>
+										</div>
+									</div>
+								</div>
+
+								<!-- Text input-->
+								<div class="form-group has-feedback">
+									<label class="control-label col-md-2" for="email">Email</label>
+									<div class="inputGroupContainer col-md-8">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-envelope"></i></span> <input id="email"
+												name="email" type="email" placeholder="email"
+												class="form-control input-md" data-error="Correo incorrecto"
+												required>
+											<div class="glyphicon form-control-feedback"></div>
+										</div>
+										<span class="help-block with-errors"></span>
+									</div>
+								</div>
+
+								<!-- Text input   -->
+								<div class="form-group has-feedback">
+									<label class="control-label col-md-2" for="pw">Password</label>
+									<div class="inputGroupContainer col-md-8">
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="glyphicon glyphicon-lock"></i>
+											</div>
+											<input id="pw" name="pw" type="password"
+												placeholder="password" class="form-control input-md-6"
+												data-minLength="5" data-error="Password must be more than 5"
+												required> <span
+												class="glyphicon form-control-feedback"></span>
+										</div>
+										<span class="help-block with-errors"></span>
+									</div>
+								</div>
+
+								<!-- Text input-->
+								<div class="form-group has-feedback">
+									<label class="control-label col-md-2" for="pwv">Confirm
+										Password</label>
+									<div class="inputGroupContainer col-md-8">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-lock"></i></span> <input id="pwv"
+												name="pwv" type="password" placeholder="password again"
+												class="form-control input-md" data-match="#pw"
+												data-minLength="5" data-error="Password dont match" required>
+											<div class="glyphicon form-control-feedback"></div>
+										</div>
+										<span class="help-block with-errors"></span>
+									</div>
+								</div>
+
+								<!-- Button -->
+								<div class="form-group">
+									<label class="control-label col-md-2" for="submit"></label>
+									<div class="col-md-8">
+										<button id="submit" name="submit" class="btn btn-primary"
+											value="save">Registro</button>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
