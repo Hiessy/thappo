@@ -7,8 +7,9 @@
 <link rel="stylesheet" href="css/starter-template.css">
 
 <script src="js/jquery-3.2.1.min.js"></script>
-<script	src="js/bootstrap.min.js"></script>
-<script	src="js/validator.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/validator.min.js"></script>
+<script src="js/registration.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -28,12 +29,11 @@
 						class="alert alert-danger col-sm-12"></div>
 
 					<form id="loginform" class="form-horizontal" role="form">
-
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i
-								class="glyphicon glyphicon-user"></i></span> <input id="login-username"
-								type="text" class="form-control" name="username" value=""
-								placeholder="username or email">
+								class="glyphicon glyphicon-envelope"></i></span> <input
+								id="login-email" type="email" class="form-control" name="email"
+								value="" placeholder="email">
 						</div>
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i
@@ -52,9 +52,8 @@
 							<!-- Button -->
 
 							<div class="col-sm-12 controls">
-								<a id="btn-login" href="#" class="btn btn-success">Login </a> <a
-									id="btn-fblogin" href="#" class="btn btn-primary">Login
-									with Facebook</a>
+								<a id="btn-login" href="start.html" class="btn btn-success">Login </a> 
+								<a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>
 							</div>
 						</div>
 						<div class="form-group">
@@ -73,125 +72,75 @@
 		</div>
 		<div id="signupbox" style="display: none; margin-top: 50px"
 			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<div class="col-md">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<strong>Fomulario de Registro</strong>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">Sign Up</div>
+					<div
+						style="float: right; font-size: 85%; position: relative; top: -10px">
+						<a id="signinlink" href="#"
+							onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign
+							In</a>
 					</div>
-					<div class="panel-body">
-
-						<form action="${pageContext.request.contextPath}/saveUser"
-							method="post" role="form" class="form-horizontal"
-							data-toggle="validator">
-							<fieldset>
-
-								<!-- Text input  has-success has-feedback -->
-								<div class="form-group has-feedback">
-									<label class="control-label col-md-2" for="fn">First
-										name</label>
-									<div class="inputGroupContainer col-md-8">
-										<div class="input-group">
-											<span class="input-group-addon"><i
-												class="glyphicon glyphicon-user"></i></span> <input id="fn"
-												name="fn" type="text" placeholder="first name"
-												class="form-control input-md" required>
-											<div class="glyphicon form-control-feedback"></div>
-										</div>
-									</div>
-								</div>
-
-								<!-- Text input-->
-								<div class="form-group has-feedback">
-									<label class="control-label col-md-2" for="ln">Last
-										name</label>
-									<div class="inputGroupContainer col-md-8">
-										<div class="input-group">
-											<span class="input-group-addon"><i
-												class="glyphicon glyphicon-user"></i></span> <input id="ln"
-												name="ln" type="text" placeholder="last name"
-												class="form-control input-md" required>
-											<div class="glyphicon form-control-feedback"></div>
-										</div>
-									</div>
-								</div>
-
-								<!-- Text input-->
-								<div class="form-group has-feedback">
-									<label class="control-label col-md-2" for="un">User
-										name</label>
-									<div class="inputGroupContainer col-md-8">
-										<div class="input-group">
-											<span class="input-group-addon"><i
-												class="glyphicon glyphicon-user"></i></span> <input id="un"
-												name="un" type="text" placeholder="user name"
-												class="form-control input-md" required>
-											<div class="glyphicon form-control-feedback"></div>
-										</div>
-									</div>
-								</div>
-
-								<!-- Text input-->
-								<div class="form-group has-feedback">
-									<label class="control-label col-md-2" for="email">Email</label>
-									<div class="inputGroupContainer col-md-8">
-										<div class="input-group">
-											<span class="input-group-addon"><i
-												class="glyphicon glyphicon-envelope"></i></span> <input id="email"
-												name="email" type="email" placeholder="email"
-												class="form-control input-md" data-error="Correo incorrecto"
-												required>
-											<div class="glyphicon form-control-feedback"></div>
-										</div>
-										<span class="help-block with-errors"></span>
-									</div>
-								</div>
-
-								<!-- Text input   -->
-								<div class="form-group has-feedback">
-									<label class="control-label col-md-2" for="pw">Password</label>
-									<div class="inputGroupContainer col-md-8">
-										<div class="input-group">
-											<div class="input-group-addon">
-												<i class="glyphicon glyphicon-lock"></i>
-											</div>
-											<input id="pw" name="pw" type="password"
-												placeholder="password" class="form-control input-md-6"
-												data-minLength="5" data-error="Password must be more than 5"
-												required> <span
-												class="glyphicon form-control-feedback"></span>
-										</div>
-										<span class="help-block with-errors"></span>
-									</div>
-								</div>
-
-								<!-- Text input-->
-								<div class="form-group has-feedback">
-									<label class="control-label col-md-2" for="pwv">Confirm
-										Password</label>
-									<div class="inputGroupContainer col-md-8">
-										<div class="input-group">
-											<span class="input-group-addon"><i
-												class="glyphicon glyphicon-lock"></i></span> <input id="pwv"
-												name="pwv" type="password" placeholder="password again"
-												class="form-control input-md" data-match="#pw"
-												data-minLength="5" data-error="Password dont match" required>
-											<div class="glyphicon form-control-feedback"></div>
-										</div>
-										<span class="help-block with-errors"></span>
-									</div>
-								</div>
-
-								<!-- Button -->
-								<div class="form-group">
-									<label class="control-label col-md-2" for="submit"></label>
-									<div class="col-md-8">
-										<button id="submit" name="submit" class="btn btn-primary"
-											value="save">Registro</button>
-									</div>
-								</div>
-							</fieldset>
-						</form>
+				</div>
+				<div style="padding-top: 30px" class="panel-body">
+					<div id="signupalert" style="display: none"
+						class="alert alert-danger">
+						<p>Error:</p>
+						<span></span>
 					</div>
+					<form id="signupform" class="form-horizontal" role="form">
+
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-user"></i></span> <input
+								id="register-first-name" type="text" class="form-control"
+								name="first-name" placeholder="first name">
+						</div>
+						
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-user"></i></span> <input
+								id="register-last-name" type="text" class="form-control"
+								name="last-name" placeholder="last name">
+						</div>
+
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-envelope"></i></span> <input
+								id="register-email" type="email" class="form-control"
+								name="email" value="" placeholder="email">
+						</div>
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-lock"></i></span> <input
+								id="register-password" type="password" class="form-control"
+								name="password" placeholder="password">
+						</div>
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-earphone"></i></span> <input
+								id="register-telephone" type="text" class="form-control"
+								name="telephone" placeholder="telephone">
+						</div>
+
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-calendar"></i></span> <input
+								id="register-dob" type="date" class="form-control" name="dob"
+								placeholder="date of birth">
+						</div>
+
+						<div style="border-top: 1px solid #999; padding-top: 20px"
+							class="form-group">
+							<div class="col-md-offset-3 col-md-9">
+								<button id="btn-register" name="register"
+									class="btn btn-success" type="button">register</button>
+								<button id="btn-fbsignup" type="button" class="btn btn-primary">
+									<i class="icon-facebook"></i> Sign Up with Facebook
+								</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>

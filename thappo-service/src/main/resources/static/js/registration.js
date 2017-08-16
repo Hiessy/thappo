@@ -1,24 +1,19 @@
 $(document).ready(function() {
-	$("#btnSave").click(function() {
-		var firstName = $("#txtFirstName").val();
-		var lastName = $("#txtLastName").val();
-		var email = $("#txtEmail").val();
-		var confEmail  = $("#txtConfEmail").val();
-		var password = $("#txtPassword").val();
-		var confPassword = $("#txtConPassword").val();
-		var dob = $("#txtDob").val();
-		var telephone = $("#txtTelephone").val();
-		var password = $("#txtPassword").val();
-		var cpassword = $("#txtConPassword").val();
+	$("#btn-register").click(function() {
+		var firstName = $("#register-first-name").val();
+		var lastName = $("#register-last-name").val();
+		var email = $("#register-email").val();
+		var password = $("#register-password").val();
+		var dob = $("#register-dob").val();
+		var telephone = $("#register-telephone").val();
 
-		if (firstName == '' || email == '' || password == '' || confPassword == '') {
-			alert("Please fill all fields...!!!!!!");
+		if (firstName == '' || email == '' || password == '' ) {
+			$('#signupalert').html('ERROR: Falta ingresar algun nombre o correo o clave').show();
+
 		} else if ((password.length) < 8) {
-			alert("Password should atleast 8 character in length...!!!!!!");
-		} else if (!(password).match(confPassword)) {
-			alert("Your passwords don't match. Try again?");
-		} else {
+			$('#signupalert').html('ERROR: longitud de la contraseña').show();
 
+		} else {
             $.ajax({  
                 type: "POST", //HTTP POST Method  
                 url: "/v3/users/", // Controller/View   
@@ -35,40 +30,18 @@ $(document).ready(function() {
                 dataType: "json",
                 contentType : "application/json",
                 success: function(data) {
-                    alert('Hello ' + firstName + ' ' + lastName);
+                    alert('Registration succesfull');
+                    location.href = "index.html";
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    alert('jqXHR: ' +jqXHR+ ',errorThrown: ' + errorThrown + ',testStatus: ' +textStatus);
+                	if( "DataIntegrityViolationException" == JSON.parse(jqXHR.responseText).exception ){                		
+                		$('#signupalert').html('ERROR: El correo se encuentra registrado').show();
+                	}else {                		
+                		$('#signupalert').html('ERROR: error inesperado').show();
+                	}
+
                } });   
 
         }
+	 });
     });
-
-    $("#btton").click(function(){
-        $.get("http://dolar.wilkinsonpc.com.co/divisas/dolar-diario.html", function(data, status){
-            alert("Data: " + data + "\nStatus: " + status);
-        });
-    });
-});
-/*
-
-    $(document).ready(function () {  
-//function will be called on button click having id btnsave
-        $("#btnSave").click(function () {  
-            $.ajax(  
-            {  
-                type: "POST", //HTTP POST Method  
-                url: "Home/AddEmployee", // Controller/View   
-                data: { //Passing data  
-                    Name: $("#txtName").val(), //Reading text box values using Jquery   
-                    City: $("#txtAddress").val(),  
-                    Address: $("#txtcity").val()  
-                } 
-
-
-
-
-
-
-
-*/
