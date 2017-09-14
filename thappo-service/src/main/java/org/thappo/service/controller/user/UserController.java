@@ -23,7 +23,7 @@ import org.thappo.domain.feature.commons.model.PaginatedResponse;
 import org.thappo.domain.feature.commons.model.PagingRequest;
 
 @RestController
-@RequestMapping("/v3/users")
+@RequestMapping("/v3")
 @CrossOrigin()
 public class UserController {
 
@@ -43,7 +43,7 @@ public class UserController {
 		this.mapper = mapper;
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ResponseEntity<PaginatedResponse<UserDTO>> getUsers(PagingRequestDTO params) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting getUsers request");
 		LOGGER.debug(">>> Recieved params: " + params.toString());
@@ -58,7 +58,7 @@ public class UserController {
 		return new ResponseEntity<PaginatedResponse<UserDTO>>(paginatedResponseBuilder.build(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/user", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> lookUpUser(@PathVariable("userId") Integer userId) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting getUser request");
 		LOGGER.debug(">>> Recieved param: " + userId);
@@ -67,7 +67,7 @@ public class UserController {
 		return new ResponseEntity<UserDTO>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public ResponseEntity<UserDTO> createNewUser(@RequestBody UserDTO userRequestDTO) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting postUser request");
 		LOGGER.debug(">>> Recieved params: " + userRequestDTO.toString());
@@ -77,7 +77,7 @@ public class UserController {
 		return new ResponseEntity<UserDTO>(userResponseDTO, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{userId}/user", method = RequestMethod.PUT)
 	public ResponseEntity<UserDTO> modifyUser(@RequestBody UserDTO userRequestDTO, @PathVariable("userId") Integer userId) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting put User request");
 		userRequestDTO.setUserId(userId);
@@ -88,7 +88,7 @@ public class UserController {
 		return new ResponseEntity<UserDTO>(userResponseDTO, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{userId}/user", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> removeUser(@PathVariable("userId") Integer userId) throws ValidationException {
 		LOGGER.info("[CONTROLLER] Starting deleteUser request");
 		LOGGER.debug(">>> Recieved param: " + userId);
